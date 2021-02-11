@@ -1,6 +1,6 @@
 
 import Cookies from 'js-cookie';
-import { updateToken } from '../axios';
+//import { updateToken } from '../axios';
 
 //Action creator
 const USER_AUTHORIZED = 'USER_AUTHORIZED';
@@ -74,30 +74,33 @@ export function fetchLoginError(): UserLoginError {
 export const fetchLogin = (login: string, password: string) => {
     return async(dispatch: any) => {
         dispatch( fetchLoginRequest(login, password) );
-        try {
-			const response = await fetch('https://api.jsonapi.co/rest/v1/user/login', {
-				method: 'POST',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					email: login,
-					password: password,
-				})
-			})
+        // try {
+		// 	const response = await fetch('https://api.jsonapi.co/rest/v1/user/login', {
+		// 		method: 'POST',
+		// 		headers: {
+		// 			'Accept': 'application/json',
+		// 			'Content-Type': 'application/json'
+		// 		},
+		// 		body: JSON.stringify({
+		// 			email: login,
+		// 			password: password,
+		// 		})
+		// 	})
 
-			const results = await response.json();
-			dispatch( fetchLoginSuccess(results) );
-			const { token } = results.data;
+		// 	const results = await response.json();
+			//dispatch( fetchLoginSuccess(results) );
+			//const { token } = results.data;
+
+			const token = '123456'
 			console.log('token2', token)
 			Cookies.set("accessToken", token);
-			updateToken(token); // function add the token to the all axios headers
+			//updateToken(token); // function add the token to the all axios headers
 		}
-        catch {
-            return () => dispatch( fetchLoginError() );
-        }
-    }
+        // catch(err) {
+		// 	console.log('err',err)
+        //     return () => dispatch( fetchLoginError() );
+        // }
+    //}
 
 }
 

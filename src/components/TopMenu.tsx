@@ -37,16 +37,21 @@ export const Logo = styled('div')`
 	font-size: 2em;
 `
 
+interface TopMenuPropsType {
+	isAuthorized: boolean
+}
 
-export const TopMenu = (isAuthorized: any) => {
+export const TopMenu = ({isAuthorized}: TopMenuPropsType) => {
+
+	console.log('isAuthorized Top Menu', isAuthorized)
 	return(
 		<NavWrapper data-test="NavWrapper">
 			<Logo>The best shop</Logo>
 			<Nav>
-				<LinkItem to="/main">MainPage</LinkItem>
+				<LinkItem to="/">MainPage</LinkItem>
 				<LinkItem to="/public">Public Page</LinkItem>
 				<LinkItem to="/login">Login</LinkItem>
-				{isAuthorized ? <LinkItem to="/protected">Protected Page</LinkItem> : null}
+				{isAuthorized === true  ? <LinkItem to="/protected">Protected Page</LinkItem> : null}
 			</Nav>
 		</NavWrapper>
 

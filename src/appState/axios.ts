@@ -8,11 +8,13 @@ export const adminInstance = axios.create({
 })
 
 
-const token = Cookies.get('accessToken');
+// const token = Cookies.get('accessToken');
+//const token = '12345';
 
 export const instance = axios.create({
+
 	baseURL: 'https://fakestoreapi.com',
-	headers: {'xxx-Authorization': 'Bearer '+ token}
+	// headers: {'xxx-Authorization': 'Bearer '+ Cookies.get('accessToken')}
   });
 
 
@@ -27,6 +29,6 @@ export const instance = axios.create({
 // )
 
 
-export const updateToken = (token: string) => {
-	instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-};
+//export const updateToken = (token: string) => {
+	instance.defaults.headers.common['x-Authorization'] = `Bearer `+ Cookies.get('accessToken');
+//};

@@ -26,6 +26,7 @@ const theme = {
 	light: '#fafafa',
 	lightDark: '#dbdbdb',
 	red: '#f50057',
+	dark:'#565656'
 }
 
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { instance, updateToken } from './axios';
+import { instance } from './axios';
 import Cookies from 'js-cookie';
 
 
@@ -11,7 +11,7 @@ export const getAllProducts = async() => {
 		const resp = await instance.get("/products?limit=10");
 		console.log('çook', Cookies.get('accessToken'))
 		// const token = Cookies.get('accessToken');
-		updateToken('xxx');
+		//updateToken('xxx');
 		console.log('resp', resp);
 	}
 	catch (error){

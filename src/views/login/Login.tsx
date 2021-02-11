@@ -30,10 +30,9 @@ const mapDispatchToProps = (dispatch: (functionToDispatch: UserAuthorizationType
 const connector = connect(mapStateToProps, mapDispatchToProps)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
+
 const Login = (props: PropsFromRedux) => {
-
 	let {data, fetchLogin, userAuthorized, userNonAuthorized} = props;
-
 	const [authorized, setAuthorized] = React.useState<SetStateAction<boolean | null>>(null);
 	const [login, setLogin] = React.useState('');
 	const [pass, setPass] = React.useState('');
@@ -48,17 +47,20 @@ const Login = (props: PropsFromRedux) => {
 
 	const loginUser = () => {
 		if (login === 'admin' && pass === 'admin') {
-			fetchLogin(login, pass)
+			fetchLogin(login, pass);
+			userAuthorized(); //to remove after working login api
+			setAuthorized(true); //to remove after working login api
 		}
 		else { setAuthorized(false) }
 	}
 
-	React.useEffect( () => {
-		if (data.success) {
-			userAuthorized();
-			setAuthorized(true);
-		}
-	},[data, userAuthorized]);
+	// React.useEffect( () => {
+	// 	if (data.success) {
+	// 		userAuthorized();
+	// 		setAuthorized(true);
+	// 	}
+	// },[data, userAuthorized]);
+
 
 	const loginOutUser = () => {
 		userNonAuthorized();
@@ -68,7 +70,6 @@ const Login = (props: PropsFromRedux) => {
 		Cookies.remove("accessToken");
 		window.location.reload();
 	}
-
 
 	return(
 		<LoginWrapper>

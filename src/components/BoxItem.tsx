@@ -1,5 +1,7 @@
 
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 export const BoxWrapper = styled('div')`
 	box-shadow: -2px 2px 6px 2px rgba(0,0,0,0.10);
@@ -8,11 +10,11 @@ export const BoxWrapper = styled('div')`
 	border-radius: 4px;
 	display: flex;
     flex-wrap: wrap;
-	flex: 0 1 200px;
+	flex: 0 1 240px;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-
+	cursor: pointer;
 `;
 
 export const TitleProduct = styled('h3')`
@@ -37,20 +39,25 @@ interface BoxItemPropsType {
 	price: string,
 	category: string,
 	image: string,
-	key: number
+	key: number,
+	id: number
 }
 
 export const BoxItem = (props: BoxItemPropsType) => {
+	let history = useHistory();
+
+	const handleRedirect = () => {
+		history.push(`/product/${props.id}`);
+	}
+
 	return(
-		<BoxWrapper>
+		<BoxWrapper onClick={handleRedirect}>
 			<TitleProduct>{props.title}</TitleProduct>
 			<p>{props.category}</p>
 			<ImgWrapper>
 				<Image alt={props.title} src={props.image} />
 			</ImgWrapper>
-
 			<p>{props.price}</p>
-
 		</BoxWrapper>
 	)
 }

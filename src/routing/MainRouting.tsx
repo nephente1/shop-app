@@ -1,7 +1,7 @@
 import React from "react";
-import {BrowserRouter, Route, Link, Switch, Redirect, useHistory} from "react-router-dom";
+import {BrowserRouter, Route, Switch } from "react-router-dom";
 import MainPage from "../views/MainPage";
-import { Protected } from "../views/Protected";
+import { AdminPage } from "../views/AdminPage";
 import { Public } from "../views/Public";
 import Login from "../views/login/Login";
 import PrivateRoute from "./PrivateRoute";
@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import { useSelector } from 'react-redux';
 import { RootState } from '../appState/redux/rootReducer';
 import { TopMenu } from "../components/TopMenu";
+import { ProductDetails } from "../views/ProductDetails/ProductDetails";
 
 export const MainRouting = () => {
 	const getAuthorisedState = useSelector( (state: RootState) => state);
@@ -19,11 +20,11 @@ export const MainRouting = () => {
 
 				<TopMenu isAuthorized={isAuthorized}/>
 
-
-				<Route path="/main" component={MainPage}/>
+				<Route exact path="/" component={MainPage}/>
 				<Route path="/public" component={Public}/>
 				<Route path="/login" component={Login}/>
-				<PrivateRoute path='/protected' component={Protected} isAuthorized={isAuthorized}/>
+				<Route path="/product/:id" component={ProductDetails}/>
+				<PrivateRoute path='/protected' component={AdminPage} isAuthorized={isAuthorized}/>
 
     	</BrowserRouter>
 	)
