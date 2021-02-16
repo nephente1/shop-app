@@ -1,8 +1,9 @@
 import React from "react";
 import { instance } from "../../appState/axios";
 import { AxiosResponse } from "axios";
-import { Spinner } from "../../components/Spinner.styles";
+import { Spinner } from "../Spinner.styles";
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 
 export const AsideContainer = styled('aside')`
@@ -12,7 +13,18 @@ export const AsideContainer = styled('aside')`
 	background: ${props => props.theme.light};
 `;
 
-export const CategoriesPanel = () => {
+export const CategoryLink = styled(Link)`
+	text-decoration: none;
+	color: ${props => props.theme.dark};
+	margin: 0 0 10px 0;
+	text-transform: capitalize;
+	font-weight: 600;
+	&:hover {
+		color: ${props => props.theme.blue};
+	}
+`;
+
+export const CategoriesAside = () => {
 
 	const [categories, setCategories] = React.useState<AxiosResponse<any>>();
 	const [loading, setLoading] = React.useState(true);
@@ -32,11 +44,12 @@ export const CategoriesPanel = () => {
 		getAllCategories();
 	}, [ getAllCategories])
 
-	console.log('categories', categories)
 
 	const categoriesList = React.useMemo( () => {
-		return categories?.data.map( (el: any) => <p key={el}>{el}</p>)
+		return categories?.data.map( (el: any) => <CategoryLink to={`/categories/${el}`} key={el}>{el}</CategoryLink>)
 	}, [categories])
 
-	return( loading ? <Spinner /> : categoriesList );
+	return(
+		loading ? <Spinner /> : categoriesList
+		);
 };

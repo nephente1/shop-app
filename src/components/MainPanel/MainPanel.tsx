@@ -10,26 +10,25 @@ export const BoxesContainer = styled('div')`
 
 export const ContentContainer = styled('div')`
 	display: flex;
+	justify-content: center;
+	width: 100%;
+	flex-direction: column;
 `;
 
-
-export const CenteredContainer = styled('div')`
-
-`;
 export const MainTitle = styled('h2')`
 	font-size: 22px;
-	color: ${props => props.theme.red};
+	color: ${props => props.theme.dark};
+	&:hover {
+		color: ${props => props.theme.blue};
+	}
 `;
 
-export const MainPanel = () => {
-
+export const MainPanel = (props: any) => {
 	return(
 		<>
 			<ContentContainer>
-				<CenteredContainer>
-					<MainTitle>Welcome to best shop!</MainTitle>
-					<ProductList />
-				</CenteredContainer>
+				<MainTitle>Welcome to nice shop, checkout our products :</MainTitle>
+				<ProductList />
 			</ContentContainer>
 		</>
 	)

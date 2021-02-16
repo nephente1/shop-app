@@ -1,11 +1,11 @@
-import { BoxItem } from "../../components/BoxItem";
+import { BoxItem } from "../BoxItem";
 import styled from 'styled-components';
 import React from "react";
 // import { getAllProducts } from "../appState/api";
 import { instance } from "../../appState/axios";
 import Cookies from "js-cookie";
 import { AxiosResponse } from "axios";
-import { Spinner } from "../../components/Spinner.styles";
+import { Spinner } from "../Spinner.styles";
 
 
 export const BoxesContainer = styled('div')`
@@ -14,29 +14,32 @@ export const BoxesContainer = styled('div')`
 	justify-content: center;
 `;
 
-export const ProductList = () => {
+type TParams = { category: string };
+
+export const CategoriesList = ({category}: TParams) => {
 
 	const [products, setProducts] = React.useState<AxiosResponse<any>>();
 	const [loading, setLoading] = React.useState(true);
 
-	const getAllProducts = React.useCallback( async() => {
+	const getCategoryProducts = React.useCallback( async() => {
 		try {
-			const resp = await instance.get("/products?limit=10");
-			console.log('çookies', Cookies.get('accessToken'))
+			const resp = await instance.get(`/products/category/${category}`);
+			console.log('çook', Cookies.get('accessToken'))
 			setProducts(resp);
 			setLoading(false);
 		}
 		catch (error){
 			console.log(error);
 		}
-	}, [])
+	}, [category])
 
 
 	React.useEffect( () => {
-		getAllProducts();
-	}, [getAllProducts])
+		getCategoryProducts();
+		setLoading(true);
+	}, [getCategoryProducts])
 
-	const productsList = React.useMemo( () => {
+	const categoryList = React.useMemo( () => {
 		return products?.data.map( (el: any) => <BoxItem key={el.id} id={el.id} title={el.title} price={el.price} image={el.image}/>)
 	}, [products]);
 
@@ -45,7 +48,7 @@ export const ProductList = () => {
 		<>
 		{ loading ? <Spinner /> :
 			<BoxesContainer>
-				{productsList}
+				{categoryList}
 			</BoxesContainer>
 		}
 		</>

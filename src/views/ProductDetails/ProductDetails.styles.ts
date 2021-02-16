@@ -1,13 +1,19 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+export const ContentContainer = styled('div')`
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	flex-direction: column;
+`;
 
 export const DetailsContainer = styled('div')`
     color: #edeff1;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 20px;
+    padding: 20px 20px 40px 20px;
     font-size: 12px;
 
     @media(max-width: 600px){
@@ -19,7 +25,8 @@ export const DetailsContainer = styled('div')`
 export const Column = styled('div')`
     display: flex;
     flex-direction: column;
-    align-items: center;
+	align-items: center;
+	text-align: left;
     &:last-of-type{
         margin: 0 20px;
     }
@@ -41,13 +48,19 @@ export const Description = styled('p')`
 `;
 
 export const Price = styled('h3')`
-	font-size: 20px;
+	font-size: 22px;
 	color: ${props => props.theme.red};
+`;
+
+export const CategoryTitle = styled('h3')`
+	color: ${props => props.theme.dark};
+	font-size: 24px;
+	text-transform: uppercase;
 `;
 
 
 export const TitleText = styled('h2')`
-    font-size: 22px;
+    font-size: 24px;
     margin-top: 16px;
     margin-bottom: 12px;
     letter-spacing: 1px;
@@ -58,12 +71,11 @@ export const TitleText = styled('h2')`
 `;
 
 export const ImgWrapper = styled('div')`
-	max-width: 400px;
-	max-height: 400px;
+width: 400px;
 `;
 
 export const Image = styled('img')`
 	width: 100%;
-	height: 100%;
+	max-height: 400px;
 	object-fit: contain;
 `;

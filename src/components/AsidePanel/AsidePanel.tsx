@@ -1,13 +1,16 @@
 import React from "react";
 import styled from 'styled-components';
-import { CategoriesPanel } from "./CategoriesPanel";
+import { BasketPanel } from "../BasketPanel/BasketPanel";
+import { CategoriesAside } from "./CategoriesAside";
 
 
 export const AsideContainer = styled('aside')`
-	padding: 20px 0 0 20px;
+	padding: 20px;
     text-align: left;
-	min-width: 150px;
+	width: 150px;
 	background: ${props => props.theme.light};
+	display: flex;
+    flex-direction: column;
 `;
 
 export const AsidePanel = () => {
@@ -15,7 +18,8 @@ export const AsidePanel = () => {
 	return(
 		<AsideContainer>
 			<h3>Categories</h3>
-			<CategoriesPanel />
+			<CategoriesAside />
+			<BasketPanel />
 		</AsideContainer>
 	)
 };

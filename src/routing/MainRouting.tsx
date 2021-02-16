@@ -1,6 +1,6 @@
 import React from "react";
 import {BrowserRouter, Route, Switch } from "react-router-dom";
-import MainPage from "../views/MainPage";
+// import MainPage from "../views/MainPage";
 import { AdminPage } from "../views/AdminPage";
 import { Public } from "../views/Public";
 import Login from "../views/login/Login";
@@ -10,6 +10,14 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../appState/redux/rootReducer';
 import { TopMenu } from "../components/TopMenu";
 import { ProductDetails } from "../views/ProductDetails/ProductDetails";
+import { CategoryPanel } from "../components/CategoryPanel/CategoryPanel";
+import styled from 'styled-components';
+import { AsidePanel } from "../components/AsidePanel/AsidePanel";
+import { MainPanel } from "../components/MainPanel/MainPanel";
+
+export const ContentContainer = styled('div')`
+	display: flex;
+`;
 
 export const MainRouting = () => {
 	const getAuthorisedState = useSelector( (state: RootState) => state);
@@ -20,11 +28,17 @@ export const MainRouting = () => {
 
 				<TopMenu isAuthorized={isAuthorized}/>
 
-				<Route exact path="/" component={MainPage}/>
-				<Route path="/public" component={Public}/>
-				<Route path="/login" component={Login}/>
-				<Route path="/product/:id" component={ProductDetails}/>
-				<PrivateRoute path='/protected' component={AdminPage} isAuthorized={isAuthorized}/>
+				<ContentContainer>
+					<AsidePanel />
+
+					<Route exact path="/" component={MainPanel}/>
+					<Route path="/public" component={Public}/>
+					<Route path="/login" component={Login}/>
+					<Route path="/product/:id" component={ProductDetails}/>
+					<Route path="/categories/:category" component={CategoryPanel}/>
+					<PrivateRoute path='/protected' component={AdminPage} isAuthorized={isAuthorized}/>
+
+				</ContentContainer>
 
     	</BrowserRouter>
 	)
