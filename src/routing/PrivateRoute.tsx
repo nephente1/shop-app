@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Switch, Redirect, RouteProps} from "react-router-dom";
+import {Route, Redirect, RouteProps} from "react-router-dom";
 
 
 type PrivateRouteProps = {

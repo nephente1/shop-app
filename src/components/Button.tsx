@@ -1,20 +1,21 @@
 import styled from 'styled-components';
 
 type Colors = 'blue' | 'red';
+type Sizes = 'small' | 'large'
 
 interface ButtonColorPropsType {
 	buttonColor: Colors,
-	onClick: ( event?: React.SyntheticEvent ) => void
-
+	onClick: ( event?: React.SyntheticEvent ) => void,
+	size?: Sizes
 }
 
 export const ButtonWrapper = styled('button')<ButtonColorPropsType>`
 	display: flex;
-	font-size: 16px;
+	font-size: ${props => props.size === 'small' ? '12px' : '16px' };
 	color: #fff;
 	border: none;
 	border-radius: 4px;
-	padding: 8px 15px;
+	padding: ${props => props.size === 'small' ? '5px 10px' : '8px 15px'};
 	width: fit-content;
 	cursor: pointer;
 	outline: none;
@@ -28,13 +29,13 @@ export const ButtonWrapper = styled('button')<ButtonColorPropsType>`
 interface ButtonPropsType {
 	bgColor: Colors,
 	children: React.ReactNode,
-	onClick: ( event?: React.SyntheticEvent ) => void
+	onClick: ( event?: React.SyntheticEvent ) => void,
+	size?: Sizes,
 }
 
 export const Button = (props: ButtonPropsType) => {
-
 	return(
-		<ButtonWrapper buttonColor={props.bgColor} onClick={ props.onClick }>
+		<ButtonWrapper buttonColor={props.bgColor} onClick={ props.onClick } size={props.size}>
 			{props.children}
 		</ButtonWrapper>
 	)

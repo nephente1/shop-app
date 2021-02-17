@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
-import { BasketPanel } from "../BasketPanel/BasketPanel";
+import { CartPanel } from "../CartPanel/CartPanel";
 import { CategoriesAside } from "./CategoriesAside";
 
 
@@ -19,7 +19,7 @@ export const AsidePanel = () => {
 		<AsideContainer>
 			<h3>Categories</h3>
 			<CategoriesAside />
-			<BasketPanel />
+			<CartPanel />
 		</AsideContainer>
 	)
 };

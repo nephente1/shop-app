@@ -32,7 +32,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 
 const Login = (props: PropsFromRedux) => {
-	let {data, fetchLogin, userAuthorized, userNonAuthorized} = props;
+	let {fetchLogin, userAuthorized, userNonAuthorized} = props;
 	const [authorized, setAuthorized] = React.useState<SetStateAction<boolean | null>>(null);
 	const [login, setLogin] = React.useState('');
 	const [pass, setPass] = React.useState('');

@@ -2,6 +2,9 @@ import {Link} from "react-router-dom";
 //import { theme } from '../App';
 import styled from 'styled-components';
 import { withTheme } from "@material-ui/core/styles"
+import { useSelector } from "react-redux";
+import { RootState } from "../appState/redux/rootReducer";
+import React from "react";
 
 export const NavWrapper = withTheme(styled('div')`
 	background:  ${props => props.theme.palette.info.dark};
@@ -25,6 +28,7 @@ export const LinkItem = withTheme(styled(Link)`
 	display: flex;
 	line-height: 1;
 	align-items: center;
+	position: relative;
 
 	&:hover {
 		background: ${props => props.theme.palette.grey.A400};
@@ -35,7 +39,20 @@ export const Logo = styled('div')`
 	color: white;
 	margin: 0 30px;
 	font-size: 2em;
-`
+`;
+
+export const CartAmountNumber = styled('div')`
+	position: absolute;width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: red;
+	color: white;
+	top: 10px;
+	right: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
 
 interface TopMenuPropsType {
 	isAuthorized: boolean
@@ -43,13 +60,23 @@ interface TopMenuPropsType {
 
 export const TopMenu = ({isAuthorized}: TopMenuPropsType) => {
 
-	console.log('isAuthorized Top Menu', isAuthorized)
+	const getActualCart = useSelector( (state: RootState) => state);
+	const cartItems = getActualCart.cartReducer.cartData;
+
+	const getProductsAmount = React.useMemo(() => {
+		return cartItems.reduce((result, item) => item.amount + result, 0);
+	}, [cartItems])
+
 	return(
 		<NavWrapper data-test="NavWrapper">
 			<Logo>The best shop</Logo>
 			<Nav>
 				<LinkItem to="/">MainPage</LinkItem>
 				<LinkItem to="/public">Public Page</LinkItem>
+				<LinkItem to="/cart" className="x-ShoppingCart">
+					<CartAmountNumber>{getProductsAmount}</CartAmountNumber>
+					Shopping cart
+				</LinkItem>
 				<LinkItem to="/login">Login</LinkItem>
 				{isAuthorized === true  ? <LinkItem to="/protected">Protected Page</LinkItem> : null}
 			</Nav>

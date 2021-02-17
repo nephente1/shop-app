@@ -40,7 +40,7 @@ export const CategoriesList = ({category}: TParams) => {
 	}, [getCategoryProducts])
 
 	const categoryList = React.useMemo( () => {
-		return products?.data.map( (el: any) => <BoxItem key={el.id} id={el.id} title={el.title} price={el.price} image={el.image}/>)
+		return products?.data.map( (el: any) => <BoxItem key={el.id} productData={el} id={el.id} title={el.title} price={el.price} image={el.image}/>)
 	}, [products]);
 
 

@@ -1,8 +1,11 @@
 
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import React, { ReactEventHandler } from 'react';
+import styled from 'styled-components';
+import { AddToCartAction, addToCartSuccess } from '../appState/redux/cartStore';
+import { RootState } from '../appState/redux/rootReducer';
+import { ProductData } from '../views/ProductDetails/ProductDetails';
 import { Button } from './Button';
 
 export const BoxWrapper = styled('div')`
@@ -47,29 +50,41 @@ interface BoxItemPropsType {
 	price: string,
 	image: string,
 	key: number,
-	id: number
+	id: number,
+	productData: ProductData
 }
 
-export const BoxItem = ({id, title, image, price}: BoxItemPropsType) => {
+const mapStateToProps = (state: RootState) => {
+	return {
+		cartData: state.cartReducer.cartData
+	}
+}
+
+const mapDispatchToProps = (dispatch: (functionToDispatch: AddToCartAction) => void) => {
+    return {
+		//@ts-ignore
+		addToCartSuccess: (data: any) => dispatch(addToCartSuccess(data))
+    }
+}
+const connector = connect(mapStateToProps, mapDispatchToProps)
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+export const BoxItem = connect(mapStateToProps, mapDispatchToProps)( (props: BoxItemPropsType & PropsFromRedux) => {
+	const { id, title, image, price, addToCartSuccess, productData } = props;
 	let history = useHistory();
 
 	const handleRedirect = () => {
 		history.push(`/product/${id}`);
 	}
 
-	const handleClick = () => {
-
-		console.log('add')
-	}
-
 	return(
-		<BoxWrapper onClick={handleRedirect}>
-			<TitleProduct>{title}</TitleProduct>
-			<ImgWrapper>
+		<BoxWrapper>
+			<TitleProduct onClick={handleRedirect}>{title}</TitleProduct>
+			<ImgWrapper onClick={handleRedirect}>
 				<Image alt={title} src={image} />
 			</ImgWrapper>
 			<p>{price} $</p>
-			
+			<Button bgColor='red' onClick={() => addToCartSuccess(productData)}>Add to basket</Button>
 		</BoxWrapper>
 	)
-}
+});

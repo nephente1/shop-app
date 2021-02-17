@@ -18,7 +18,7 @@ const store = createStore(rootReducer, compose (
   applyMiddleware(...middleware)
 ));
 
-console.log('user', store.getState())
+//console.log('store', store.getState())
 
 
 const theme = {

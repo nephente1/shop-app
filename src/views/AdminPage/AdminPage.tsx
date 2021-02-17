@@ -1,27 +1,33 @@
-import { BoxItem } from "../../components/BoxItem";
+
 import styled from 'styled-components';
 import React from "react";
 // import { getAllProducts } from "../appState/api";
-import { instance } from "../../appState/axios";
+
 import Cookies from "js-cookie";
 import { AxiosResponse } from "axios";
+
+import { instance } from "../../appState/axios";
 import { Spinner } from "../../components/Spinner.styles";
+import { BoxItem } from '../../components/BoxItem';
+import { ProductElement } from './ProductElement';
 
 
-export const BoxesContainer = styled('div')`
+export const AdminPageContainer = styled('div')`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	flex-direction: column;
+	padding: 20px 30px;
 `;
 
-export const ProductList = () => {
+export const AdminPage = () => {
 
 	const [products, setProducts] = React.useState<AxiosResponse<any>>();
 	const [loading, setLoading] = React.useState(true);
 
 	const getAllProducts = React.useCallback( async() => {
 		try {
-			const resp = await instance.get("/products?limit=10");
+			const resp = await instance.get("/products");
 			setProducts(resp);
 			setLoading(false);
 		}
@@ -36,16 +42,18 @@ export const ProductList = () => {
 	}, [getAllProducts])
 
 	const productsList = React.useMemo( () => {
-		return products?.data.map( (el: any) => <BoxItem key={el.id} productData={el} id={el.id} title={el.title} price={el.price} image={el.image}/>)
+		return products?.data.map( (el: any) => <ProductElement key={el.id} productData={el}/>)
 	}, [products]);
 
 
 	return(
 		<>
 		{ loading ? <Spinner /> :
-			<BoxesContainer>
+			<AdminPageContainer>
+				<h2>Admin Page</h2>
+				<h4>Items to remove</h4>
 				{productsList}
-			</BoxesContainer>
+			</AdminPageContainer>
 		}
 		</>
 	)
