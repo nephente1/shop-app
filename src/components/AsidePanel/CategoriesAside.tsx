@@ -1,7 +1,7 @@
-import React from "react";
-import { instance } from "../../appState/axios";
-import { AxiosResponse } from "axios";
-import { Spinner } from "../Spinner.styles";
+import React from 'react';
+import { instance } from '../../appState/axios';
+import { AxiosResponse } from 'axios';
+import { Spinner } from '../Spinner.styles';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
@@ -29,27 +29,25 @@ export const CategoriesAside = () => {
 	const [categories, setCategories] = React.useState<AxiosResponse<any>>();
 	const [loading, setLoading] = React.useState(true);
 
-	const getAllCategories = React.useCallback( async() => {
+	const getAllCategories = React.useCallback( async () => {
 		try {
-			const resp = await instance.get("/products/categories");
+			const resp = await instance.get('/products/categories');
 			setCategories(resp);
 			setLoading(false);
 		}
-		catch (error){
+		catch (error) {
 			console.log(error);
 		}
-	}, [])
+	}, []);
 
 	React.useEffect( () => {
 		getAllCategories();
-	}, [ getAllCategories])
+	}, [ getAllCategories]);
 
 
 	const categoriesList = React.useMemo( () => {
-		return categories?.data.map( (el: any) => <CategoryLink to={`/categories/${el}`} key={el}>{el}</CategoryLink>)
-	}, [categories])
+		return categories?.data.map( (el: any) => <CategoryLink to={`/categories/${el}`} key={el}>{el}</CategoryLink>);
+	}, [categories]);
 
-	return(
-		loading ? <Spinner /> : categoriesList
-		);
+	return loading ? <Spinner /> : categoriesList;
 };

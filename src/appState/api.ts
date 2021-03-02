@@ -14,7 +14,7 @@ export const getAllProducts = async() => {
 		//updateToken('xxx');
 		console.log('resp', resp);
 	}
-	catch (error){
+	catch (error) {
 		console.log(error);
 	}
 }

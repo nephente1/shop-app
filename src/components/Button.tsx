@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 type Colors = 'blue' | 'red';
@@ -5,7 +6,7 @@ type Sizes = 'small' | 'large'
 
 interface ButtonColorPropsType {
 	buttonColor: Colors,
-	onClick: ( event?: React.SyntheticEvent ) => void,
+	onClick: () => void,
 	size?: Sizes
 }
 
@@ -29,14 +30,14 @@ export const ButtonWrapper = styled('button')<ButtonColorPropsType>`
 interface ButtonPropsType {
 	bgColor: Colors,
 	children: React.ReactNode,
-	onClick: ( event?: React.SyntheticEvent ) => void,
+	onClick: () => void,
 	size?: Sizes,
 }
 
 export const Button = (props: ButtonPropsType) => {
-	return(
+	return (
 		<ButtonWrapper buttonColor={props.bgColor} onClick={ props.onClick } size={props.size}>
 			{props.children}
 		</ButtonWrapper>
-	)
-}
+	);
+};

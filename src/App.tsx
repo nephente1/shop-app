@@ -15,7 +15,7 @@ import { MainRouting } from './routing/MainRouting';
 //const composeEnchanters = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [thunk];
 const store = createStore(rootReducer, compose (
-  applyMiddleware(...middleware)
+	applyMiddleware(...middleware)
 ));
 
 //console.log('store', store.getState())
@@ -26,11 +26,11 @@ const theme = {
 	light: '#fafafa',
 	lightDark: '#dbdbdb',
 	red: '#f50057',
-	dark:'#565656'
-}
+	dark: '#565656'
+};
 
 
-const App = () => {
+const App = (): JSX.Element => {
 
 	return (
 		<div className="App">
@@ -43,6 +43,6 @@ const App = () => {
 			</Provider>
 		</div>
 	);
-}
+};
 
 export default App;

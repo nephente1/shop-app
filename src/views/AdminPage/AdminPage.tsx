@@ -1,60 +1,38 @@
 
-import styled from 'styled-components';
-import React from "react";
-// import { getAllProducts } from "../appState/api";
+import React from 'react';
+import { AxiosResponse } from 'axios';
+import { QueryClient, QueryClientProvider } from "react-query";
+import {BrowserRouter, Route, Switch } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-import Cookies from "js-cookie";
-import { AxiosResponse } from "axios";
-
-import { instance } from "../../appState/axios";
-import { Spinner } from "../../components/Spinner.styles";
-import { BoxItem } from '../../components/BoxItem';
+import { adminInstance } from '../../appState/axios';
+import { Spinner } from '../../components/Spinner.styles';
 import { ProductElement } from './ProductElement';
+import { PageContainer } from '../MainStyles';
+import { ProductData } from '../ProductDetails/ProductDetails';
+import { ItemsPage } from './ItemsPage';
 
 
-export const AdminPageContainer = styled('div')`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	flex-direction: column;
-	padding: 20px 30px;
-`;
+// Create a client
+const queryClient = new QueryClient();
 
 export const AdminPage = () => {
 
-	const [products, setProducts] = React.useState<AxiosResponse<any>>();
-	const [loading, setLoading] = React.useState(true);
+	return (
 
-	const getAllProducts = React.useCallback( async() => {
-		try {
-			const resp = await instance.get("/products");
-			setProducts(resp);
-			setLoading(false);
-		}
-		catch (error){
-			console.log(error);
-		}
-	}, [])
+		<QueryClientProvider client={queryClient}>
+			<PageContainer>
+			<Link to="/admin/items">Items</Link>
+			<Switch>
+				{/* <Route exact path="/" component={MainPanel}/> */}
+				<Route path="/admin/items" component={ItemsPage}/>
+				{/* <Route path="/product/:id" component={ProductDetails}/>
+				<Route path="/categories/:category" component={CategoryPanel}/> */}
+			</Switch>
 
 
-	React.useEffect( () => {
-		getAllProducts();
-	}, [getAllProducts])
+			</PageContainer>
+		</QueryClientProvider>
 
-	const productsList = React.useMemo( () => {
-		return products?.data.map( (el: any) => <ProductElement key={el.id} productData={el}/>)
-	}, [products]);
-
-
-	return(
-		<>
-		{ loading ? <Spinner /> :
-			<AdminPageContainer>
-				<h2>Admin Page</h2>
-				<h4>Items to remove</h4>
-				{productsList}
-			</AdminPageContainer>
-		}
-		</>
-	)
-}
+	);
+};

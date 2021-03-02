@@ -37,18 +37,18 @@ interface UserLoginError {
 export type UserAuthorizationTypes = UserAuthorizedAction | UserNonAuthorizedAction | UserLogin | UserLoginSuccess | UserLoginError;
 
 
-export function userAuthorized (payload: string): UserAuthorizedAction {
+export function userAuthorized(payload: string): UserAuthorizedAction {
     return {
 		type: USER_AUTHORIZED,
 		payload: payload
-    }
+    };
 }
 
 export function userNonAuthorized(payload: string): UserNonAuthorizedAction {
     return {
         type: USER_NON_AUTHORIZED,
 		payload: payload
-    }
+    };
 }
 
 export function fetchLoginRequest(login: string, password: string): UserLogin {
@@ -56,23 +56,23 @@ export function fetchLoginRequest(login: string, password: string): UserLogin {
 		type: USER_LOGIN, //type is required
 		login: login,
 		password: password
-    }
+    };
 }
 export function fetchLoginSuccess(data: any): UserLoginSuccess {
     return {
 		type: USER_LOGIN_SUCCESS, //type is required
 		payload: data
-    }
+    };
 }
-export function fetchLoginError(): UserLoginError {
+export function fetchLoginError(): UserLoginError |Promise<void>  {
     return {
         type: USER_LOGIN_ERROR, //type is required
-    }
+    };
 }
 
 //fetch login request:
-export const fetchLogin = (login: string, password: string) => {
-    return async(dispatch: any) => {
+export const fetchLogin = (login: string, password: string)  => {
+    return async (dispatch: any): Promise<void> => {
         dispatch( fetchLoginRequest(login, password) );
         // try {
 		// 	const response = await fetch('https://api.jsonapi.co/rest/v1/user/login', {
@@ -91,18 +91,18 @@ export const fetchLogin = (login: string, password: string) => {
 			//dispatch( fetchLoginSuccess(results) );
 			//const { token } = results.data;
 
-			const token = '123456'
-			console.log('token2', token)
-			Cookies.set("accessToken", token);
+			const token = '123456';
+			console.log('token2', token);
+			Cookies.set('accessToken', token);
 			//updateToken(token); // function add the token to the all axios headers
-		}
+		};
         // catch(err) {
 		// 	console.log('err',err)
         //     return () => dispatch( fetchLoginError() );
         // }
     //}
 
-}
+};
 
 //https://api.jsonapi.co/rest/v1/user/login
 
@@ -123,11 +123,11 @@ const INITIAL_STATE: AuthorizedState = {
 	isError: false,
 	data: []
 
-}
+};
 
 
 export const userReducer = (state = INITIAL_STATE, action: UserAuthorizationTypes ) => { //parametry to: aktualny stan i dana akcja
-    switch(action.type) {
+    switch (action.type) {
         case USER_AUTHORIZED:
             return {...state, isAuthorized: true, message: action.payload };
         case USER_NON_AUTHORIZED:
@@ -141,4 +141,4 @@ export const userReducer = (state = INITIAL_STATE, action: UserAuthorizationType
         default:
             return state;
     }
-}
+};

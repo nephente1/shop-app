@@ -5,10 +5,12 @@ import { instance } from '../../appState/axios';
 import { Button } from '../../components/Button';
 import { RouteComponentProps } from 'react-router';
 import { Spinner } from '../../components/Spinner.styles';
-import {Column, ColumnText, DetailsContainer, TitleText, Price, Description, ImgWrapper, Image, ContentContainer, CategoryTitle} from "./ProductDetails.styles";
+import {Column, ColumnText, DetailsContainer, TitleText, Price, Description, ImgWrapper, Image, CategoryTitle} from './ProductDetails.styles';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../appState/redux/rootReducer';
 import { AddToCartAction, addToCartSuccess } from '../../appState/redux/cartStore';
+import { PageContainer } from '../MainStyles';
+import { Dispatch } from 'redux';
 
 
 type TParams = { id: string };
@@ -25,58 +27,57 @@ export interface ProductData {
 const mapStateToProps = (state: RootState) => {
 	return {
 		cartData: state.cartReducer.cartData
-	}
-}
+	};
+};
 
-const mapDispatchToProps = (dispatch: (functionToDispatch: AddToCartAction) => void) => {
+const mapDispatchToProps = (dispatch: (Dispatch<AddToCartAction>) ) => {
     return {
-		//@ts-ignore
 		addToCartSuccess: (data: any) => dispatch(addToCartSuccess(data))
-    }
-}
+    };
+};
 
 // creating types of props from connect
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 
 const ProductDetails = (props: PropsFromRedux & RouteComponentProps<TParams>) => {
 	const { addToCartSuccess } = props;
 
-	const [product, setProduct] = React.useState<AxiosResponse<ProductData>>();
+	const [product, setProduct] = React.useState<AxiosResponse<any>>();
 	const [loading, setLoading] = React.useState(true);
 
-	const getProduct = React.useCallback( async() => {
+	const getProduct = React.useCallback( async () => {
 		try {
 			const resp = await instance.get(`/products/${props.match.params.id}`);
 			setProduct(resp);
 			setLoading(false);
 		}
-		catch (error){
+		catch (error) {
 			console.log(error);
 		}
 	}, [props.match.params.id]);
 
 	React.useEffect( () =>{
 		getProduct();
-	}, [getProduct])
+	}, [getProduct]);
 
 
-	let history = useHistory();
+	const history = useHistory();
     const handleBackClick = () => {
         history.goBack();
-	}
+	};
 
 
 	if (product?.data === undefined) {
 		return null;
 	}
 
-    return(
-        <ContentContainer>
+    return (
+        <PageContainer className="x-PageContainer">
 			{loading ? <Spinner /> :
 			<>
-				<DetailsContainer>
+				<DetailsContainer className="x-DetailsContainer">
 					<Column>
 						<CategoryTitle>category: {product.data.category}</CategoryTitle>
 						<TitleText>{product.data.title}</TitleText>
@@ -84,7 +85,7 @@ const ProductDetails = (props: PropsFromRedux & RouteComponentProps<TParams>) =>
 						<Description>{product.data.description}</Description>
 
 						<Price>{product.data.price} $</Price>
-						<Button bgColor='red' onClick={() => addToCartSuccess(product.data)}>Add to basket</Button>
+						<Button bgColor="red" onClick={() => addToCartSuccess(product.data)}>Add to basket</Button>
 
 					</Column>
 					<Column>
@@ -93,12 +94,12 @@ const ProductDetails = (props: PropsFromRedux & RouteComponentProps<TParams>) =>
 						</ImgWrapper>
 					</Column>
 				</DetailsContainer>
-				<Button bgColor='blue' onClick={handleBackClick}>back</Button>
+				<Button bgColor="blue" onClick={handleBackClick}>back</Button>
 			</>
 			}
 
-		</ContentContainer>
-    )
+		</PageContainer>
+    );
 };
 
-export default connector(ProductDetails)
+export default connector(ProductDetails);

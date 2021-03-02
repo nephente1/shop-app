@@ -10,6 +10,6 @@ import { userReducer } from './userStore';
 export const rootReducer = combineReducers({
 	userReducer: userReducer,
 	cartReducer: cartReducer
-})
+});
 
 export type RootState = ReturnType<typeof rootReducer>

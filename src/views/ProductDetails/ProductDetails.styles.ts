@@ -1,18 +1,10 @@
 import styled from 'styled-components';
 
-export const ContentContainer = styled('div')`
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	flex-direction: column;
-`;
 
 export const DetailsContainer = styled('div')`
     color: #edeff1;
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    padding: 20px 20px 40px 20px;
     font-size: 12px;
 
     @media(max-width: 600px){
@@ -57,7 +49,6 @@ export const CategoryTitle = styled('h3')`
 	text-transform: uppercase;
 `;
 
-
 export const TitleText = styled('h2')`
     font-size: 24px;
     margin-top: 16px;
@@ -70,7 +61,7 @@ export const TitleText = styled('h2')`
 `;
 
 export const ImgWrapper = styled('div')`
-width: 400px;
+	width: 400px;
 `;
 
 export const Image = styled('img')`

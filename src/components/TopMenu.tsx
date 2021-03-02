@@ -1,26 +1,25 @@
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 //import { theme } from '../App';
 import styled from 'styled-components';
-import { withTheme } from "@material-ui/core/styles"
-import { useSelector } from "react-redux";
-import { RootState } from "../appState/redux/rootReducer";
-import React from "react";
+import { useSelector } from 'react-redux';
+import { RootState } from '../appState/redux/rootReducer';
+import React from 'react';
 
-export const NavWrapper = withTheme(styled('div')`
-	background:  ${props => props.theme.palette.info.dark};
+export const NavWrapper = styled('div')`
+	background:  ${props => props.theme.dark};
 	display: flex;
 	width: 100%;
 	justify-content: space-between;
 	align-items: center;
 	height: 70px;
-`);
+`;
 
 export const Nav = styled('div')`
 	display: inline-flex;
 	height: 100%;
 	margin: 0 30px 0 0;
-`
-export const LinkItem = withTheme(styled(Link)`
+`;
+export const LinkItem = styled(Link)`
 	color: #fff;
 	text-decoration: none;
 	padding: 0 20px;
@@ -31,14 +30,16 @@ export const LinkItem = withTheme(styled(Link)`
 	position: relative;
 
 	&:hover {
-		background: ${props => props.theme.palette.grey.A400};
+		background: ${props => props.theme.dark};
 	}
-`);
+`;
 
 export const Logo = styled('div')`
 	color: white;
 	margin: 0 30px;
-	font-size: 2em;
+	font-size: 3vw;
+	display: flex;
+	flex: 1 0 180px;
 `;
 
 export const CartAmountNumber = styled('div')`
@@ -65,9 +66,9 @@ export const TopMenu = ({isAuthorized}: TopMenuPropsType) => {
 
 	const getProductsAmount = React.useMemo(() => {
 		return cartItems.reduce((result, item) => item.amount + result, 0);
-	}, [cartItems])
+	}, [cartItems]);
 
-	return(
+	return (
 		<NavWrapper data-test="NavWrapper">
 			<Logo>The best shop</Logo>
 			<Nav>
@@ -78,9 +79,9 @@ export const TopMenu = ({isAuthorized}: TopMenuPropsType) => {
 					Shopping cart
 				</LinkItem>
 				<LinkItem to="/login">Login</LinkItem>
-				{isAuthorized === true  ? <LinkItem to="/protected">Protected Page</LinkItem> : null}
+				{isAuthorized === true  ? <LinkItem to="/admin">Admin Page</LinkItem> : null}
 			</Nav>
 		</NavWrapper>
 
-	)
-}
+	);
+};

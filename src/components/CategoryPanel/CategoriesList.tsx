@@ -1,11 +1,11 @@
-import { BoxItem } from "../BoxItem";
+import { BoxItem } from '../BoxItem';
 import styled from 'styled-components';
-import React from "react";
+import React from 'react';
 // import { getAllProducts } from "../appState/api";
-import { instance } from "../../appState/axios";
-import Cookies from "js-cookie";
-import { AxiosResponse } from "axios";
-import { Spinner } from "../Spinner.styles";
+import { instance } from '../../appState/axios';
+import { AxiosResponse } from 'axios';
+import { Spinner } from '../Spinner.styles';
+import { ProductData } from '../../views/ProductDetails/ProductDetails';
 
 
 export const BoxesContainer = styled('div')`
@@ -16,35 +16,34 @@ export const BoxesContainer = styled('div')`
 
 type TParams = { category: string };
 
-export const CategoriesList = ({category}: TParams) => {
+export const CategoriesList = ({category}: TParams): JSX.Element => {
 
-	const [products, setProducts] = React.useState<AxiosResponse<any>>();
+	const [products, setProducts] = React.useState<AxiosResponse<Array<ProductData>>>();
 	const [loading, setLoading] = React.useState(true);
 
-	const getCategoryProducts = React.useCallback( async() => {
+	const getCategoryProducts = React.useCallback( async () => {
 		try {
 			const resp = await instance.get(`/products/category/${category}`);
-			console.log('çook', Cookies.get('accessToken'))
 			setProducts(resp);
 			setLoading(false);
 		}
-		catch (error){
+		catch (error) {
 			console.log(error);
 		}
-	}, [category])
+	}, [category]);
 
 
 	React.useEffect( () => {
 		getCategoryProducts();
 		setLoading(true);
-	}, [getCategoryProducts])
+	}, [getCategoryProducts]);
 
 	const categoryList = React.useMemo( () => {
-		return products?.data.map( (el: any) => <BoxItem key={el.id} productData={el} id={el.id} title={el.title} price={el.price} image={el.image}/>)
+		return products?.data.map( (el: any) => <BoxItem key={el.id} productData={el} id={el.id} title={el.title} price={el.price} image={el.image}/>);
 	}, [products]);
 
 
-	return(
+	return (
 		<>
 		{ loading ? <Spinner /> :
 			<BoxesContainer>
@@ -52,5 +51,5 @@ export const CategoriesList = ({category}: TParams) => {
 			</BoxesContainer>
 		}
 		</>
-	)
-}
+	);
+};

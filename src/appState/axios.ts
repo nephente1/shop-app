@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 // https://api.jsonapi.co/rest/v1/user/login
 
 export const adminInstance = axios.create({
-	baseURL: "https://fakestoreapi.com"
-})
+	baseURL: 'https://fakestoreapi.com'
+});
 
 
 // const token = Cookies.get('accessToken');
@@ -29,6 +29,6 @@ export const instance = axios.create({
 // )
 
 
-//export const updateToken = (token: string) => {
-	instance.defaults.headers.common['x-Authorization'] = `Bearer `+ Cookies.get('accessToken');
-//};
+
+adminInstance.defaults.headers.common['x-Authorization'] = 'Bearer '+ Cookies.get('accessToken');
+

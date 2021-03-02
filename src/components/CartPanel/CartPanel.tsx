@@ -1,10 +1,10 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { RootState } from "../../appState/redux/rootReducer";
-import { ProductData } from "../../views/ProductDetails/ProductDetails";
-import { Button } from "../Button";
+import { RootState } from '../../appState/redux/rootReducer';
+import { ProductData } from '../../views/ProductDetails/ProductDetails';
+import { Button } from '../Button';
 
 
 export const BasketContainer = styled('aside')`
@@ -36,7 +36,7 @@ export const ItemPrice = styled('p')`
 	font-size: 12px;
 `;
 
-type CartPanelItemsPropsType = Pick<ProductData, "id" | "title" | "amount" | "price"> ;
+type CartPanelItemsPropsType = Pick<ProductData, 'id' | 'title' | 'amount' | 'price'> ;
 
 
 export const CartPanel = () => {
@@ -51,25 +51,25 @@ export const CartPanel = () => {
 				<ItemName>{el.title}</ItemName>
 				<ItemAmount>{el.amount} pcs.</ItemAmount>
 				<ItemPrice>{itemsPrice(el.price, el.amount)} $</ItemPrice>
-			</CartItem>)
+			</CartItem>);
 	},[cartItems]);
 
-	let history = useHistory();
+	const history = useHistory();
 	const cartRedirection = () => {
         history.push('/cart');
-	}
+	};
 
-	return(
+	return (
 		<BasketContainer>
 			<h3>Basket</h3>
 			{ cartItems.length ?
 				<>
-					{renderCart}
-					<Button onClick={cartRedirection} size='small' bgColor='blue'>Go to full cart</Button>
+					{ renderCart }
+					<Button onClick={cartRedirection} size="small" bgColor="blue">Go to full cart</Button>
 				</> :
 				<p>Basket is empty, add something to cart</p>
 			}
 
 		</BasketContainer>
-	)
+	);
 };
