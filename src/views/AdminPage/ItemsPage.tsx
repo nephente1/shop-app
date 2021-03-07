@@ -27,8 +27,6 @@ export const ItemsPage = () => {
 		return products?.data.map( (el: any) => <ProductElement key={el.id} productData={el}/>);
 	}, [products]);
 
-
-	console.log('products', products);
 	return (
 		<>
 		{ isLoading ? <Spinner /> :

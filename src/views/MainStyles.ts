@@ -11,5 +11,7 @@ export const PageContainer = styled('div')`
 	display: flex;
 	flex-direction: column;
 	padding: 20px 30px;
-	width: 100%;
+	@media screen and (min-width: 615px){
+		width: 100%;
+	}
 `;

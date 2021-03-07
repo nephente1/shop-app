@@ -9,21 +9,32 @@ export const NavWrapper = styled('div')`
 	background:  ${props => props.theme.dark};
 	display: flex;
 	width: 100%;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
-	height: 70px;
+	height: auto;
+	flex-direction: column;
+	@media screen and (min-width: 615px){
+		height: 70px;
+		justify-content: space-between;
+		flex-direction: row;
+	}
 `;
 
 export const Nav = styled('div')`
-	display: inline-flex;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	height: 100%;
 	margin: 0 30px 0 0;
+	@media screen and (min-width: 615px){
+		display: inline-flex;
+		flex-direction: row;
+	}
 `;
 export const LinkItem = styled(Link)`
 	color: #fff;
 	text-decoration: none;
-	padding: 0 20px;
-	height: 100%;
+	padding: 10px 20px;
 	display: flex;
 	line-height: 1;
 	align-items: center;
@@ -37,9 +48,8 @@ export const LinkItem = styled(Link)`
 export const Logo = styled('div')`
 	color: white;
 	margin: 0 30px;
-	font-size: 3vw;
+	font-size: 28px;
 	display: flex;
-	flex: 1 0 180px;
 `;
 
 export const CartAmountNumber = styled('div')`

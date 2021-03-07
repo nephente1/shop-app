@@ -1,10 +1,6 @@
-import { AxiosResponse } from 'axios';
 import { adminInstance } from '../../appState/axios';
 import { ProductData } from '../ProductDetails/ProductDetails';
 
-interface ProductElementPropsType {
-	productData: ProductData
-}
 
 export const getAllProducts = async (): Promise<any> => {
     try {

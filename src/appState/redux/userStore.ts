@@ -117,7 +117,7 @@ interface AuthorizedState {
 }
 
 const INITIAL_STATE: AuthorizedState = {
-	isAuthorized: false,
+	isAuthorized: Cookies.get('accessToken') !== undefined,
 	message: '',
 	isLoading: false,
 	isError: false,
@@ -129,7 +129,7 @@ const INITIAL_STATE: AuthorizedState = {
 export const userReducer = (state = INITIAL_STATE, action: UserAuthorizationTypes ) => { //parametry to: aktualny stan i dana akcja
     switch (action.type) {
         case USER_AUTHORIZED:
-            return {...state, isAuthorized: true, message: action.payload };
+            return {...state, isAuthorized: Cookies.get('accessToken') !== undefined, message: action.payload };
         case USER_NON_AUTHORIZED:
 			return {...state, isAuthorized: false, message: action.payload };
 			case USER_LOGIN:

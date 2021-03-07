@@ -16,6 +16,7 @@ import { AsidePanel } from '../components/AsidePanel/AsidePanel';
 import { MainPanel } from '../components/MainPanel/MainPanel';
 import ProductDetails from '../views/ProductDetails/ProductDetails';
 import { CartPage } from '../views/CartPage/CartPage';
+import Cookies from 'js-cookie';
 
 export const ContentContainer = styled('div')`
     display: flex;
@@ -29,6 +30,7 @@ export const ContentContainer = styled('div')`
 export const MainRouting = () => {
     const getAuthorisedState = useSelector( (state: RootState) => state);
     const isAuthorized = getAuthorisedState.userReducer.isAuthorized;
+    console.log('isAuthorized', isAuthorized);
 
     return (
         <BrowserRouter>
