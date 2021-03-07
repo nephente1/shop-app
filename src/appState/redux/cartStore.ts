@@ -6,6 +6,7 @@ import { ProductData } from '../../views/ProductDetails/ProductDetails';
 //Action types
 const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+const REMOVE_ALL_PIECES_FROM_CART = 'REMOVE_ALL_PIECES_FROM_CART';
 
 interface CartStateTypes {
 	cartData: Array<ProductData>
@@ -25,6 +26,10 @@ export interface RemoveFromCartAction {
 	cartRemoveData: ProductData
 }
 
+export interface RemoveAllPiecesFromCartAction {
+	type: typeof REMOVE_ALL_PIECES_FROM_CART,
+	cartRemoveAllPieces: ProductData
+}
 
 // dispatches actions
 export function addToCartSuccess(cartData: ProductData): AddToCartAction {
@@ -41,8 +46,15 @@ export function removeFromCart(cartData: ProductData): RemoveFromCartAction {
     };
 }
 
+export function removeAllPiecesFromCart(cartData: ProductData): RemoveAllPiecesFromCartAction {
+	return {
+		type: REMOVE_ALL_PIECES_FROM_CART,
+		cartRemoveAllPieces: cartData
+	};
+}
+
 // reducer
-export const cartReducer = (state = INITIAL_STATE, action: AddToCartAction | RemoveFromCartAction ) => { //parametry to: aktualny stan i dana akcja
+export const cartReducer = (state = INITIAL_STATE, action: AddToCartAction | RemoveFromCartAction | RemoveAllPiecesFromCartAction ) => { //parametry to: aktualny stan i dana akcja
     switch (action.type) {
         case ADD_TO_CART:
 			// check if item is inn cart already
@@ -71,6 +83,11 @@ export const cartReducer = (state = INITIAL_STATE, action: AddToCartAction | Rem
 			}
 			return {...state,
 				cartData: state.cartData.filter(item => item.id !== action.cartRemoveData.id)
+			};
+
+		case REMOVE_ALL_PIECES_FROM_CART:
+			return {...state,
+				cartData: state.cartData.filter(item => item.id !== action.cartRemoveAllPieces.id)
 			};
 
         default:

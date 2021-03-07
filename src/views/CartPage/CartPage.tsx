@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { RemoveFromCartAction, removeFromCart } from '../../appState/redux/cartStore';
+import { RemoveFromCartAction, removeFromCart, addToCartSuccess, AddToCartAction, removeAllPiecesFromCart, RemoveAllPiecesFromCartAction } from '../../appState/redux/cartStore';
 import { RootState } from '../../appState/redux/rootReducer';
 import { Button } from '../../components/Button';
 import { ProductData } from '../../views/ProductDetails/ProductDetails';
@@ -14,6 +14,9 @@ export const CartItem = styled('div')`
     flex-wrap: nowrap;
     border-top: 1px solid ${props => props.theme.lightDark};
     width: 100%;
+    &:first-of-type {
+        font-weight: 700;
+    }
 `;
 
 export const ItemName = styled('p')`
@@ -23,11 +26,13 @@ export const ItemName = styled('p')`
 `;
 
 export const ItemAmount = styled('p')`
-    width: 100px;
+    width: 140px;
+    text-align: center;
 `;
 
 export const ItemPrice = styled('p')`
-    width: 70px;
+    width: 120px;
+    text-align: center;
 `;
 export const RemoveOption = styled('p')`
     width: 100px;
@@ -35,7 +40,7 @@ export const RemoveOption = styled('p')`
     cursor: pointer;
 `;
 
-type CartPanelItemsPropsType = Pick<ProductData, 'id' | 'title' | 'amount' | 'price'> ;
+// type CartPanelItemsPropsType = Pick<ProductData, 'id' | 'title' | 'amount' | 'price'> ;
 
 
 const mapStateToProps = (state: RootState) => {
@@ -44,9 +49,11 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: (Dispatch<RemoveFromCartAction>) ) => {
+const mapDispatchToProps = (dispatch: (Dispatch<RemoveFromCartAction | AddToCartAction | RemoveAllPiecesFromCartAction>) ) => {
     return {
-        removeFromCart: (data: any) => dispatch(removeFromCart(data))
+        removeFromCart: (data: ProductData) => dispatch(removeFromCart(data)),
+        addToCartSuccess: (data: ProductData) => dispatch(addToCartSuccess(data)),
+        removeAllPiecesFromCart: (data: ProductData) => dispatch(removeAllPiecesFromCart(data))
     };
 };
 
@@ -59,6 +66,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 export const CartPage = connect(mapStateToProps, mapDispatchToProps)((props: PropsFromRedux) => {
 
     const cartItems = props.cartData;
+    const {addToCartSuccess, removeFromCart, removeAllPiecesFromCart} = props;
 
     const getTotalCost = React.useMemo(() => {
         return cartItems.reduce((result, item) => item.amount * item.price + result, 0).toFixed(2);
@@ -66,13 +74,15 @@ export const CartPage = connect(mapStateToProps, mapDispatchToProps)((props: Pro
 
     const itemsPrice = (a: number, b: number) => a * b;
 
+    // <button onClick={() => addToCartSuccess(el)}>+</button><button onClick={removePiece(el.amount)}>-</button>
+
     const renderCart = React.useMemo(() => {
-        return cartItems.map((el: CartPanelItemsPropsType) =>
+        return cartItems.map((el: ProductData) =>
             <CartItem key={el.id}>
                 <ItemName>{el.title}</ItemName>
-                <ItemAmount>{el.amount} pcs.</ItemAmount>
+                <ItemAmount>{el.amount} pcs. <button onClick={() => addToCartSuccess(el)}>+</button><button onClick={() => removeFromCart(el)}>-</button></ItemAmount>
                 <ItemPrice>{itemsPrice(el.price, el.amount)} $</ItemPrice>
-                <RemoveOption onClick={() => props.removeFromCart(el)}>X</RemoveOption>
+                <RemoveOption onClick={() => removeAllPiecesFromCart(el)}>X</RemoveOption>
             </CartItem>
         );
     },[props, cartItems]);
@@ -80,7 +90,10 @@ export const CartPage = connect(mapStateToProps, mapDispatchToProps)((props: Pro
     const history = useHistory();
     const cartRedirection = () => {
         history.push('/cart');
+        alert('Thanks for buying!');
     };
+
+    console.log('el', cartItems);
 
     return (
         <PageContainer>
@@ -89,7 +102,7 @@ export const CartPage = connect(mapStateToProps, mapDispatchToProps)((props: Pro
                 <ItemName>Product name</ItemName>
                 <ItemAmount>Amount</ItemAmount>
                 <ItemPrice>Price</ItemPrice>
-                <RemoveOption>Remove</RemoveOption>
+                <RemoveOption>Remove item</RemoveOption>
             </CartItem>
             { cartItems.length ?
                 <>
