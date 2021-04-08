@@ -70,37 +70,38 @@ export function fetchLoginError(): UserLoginError |Promise<void>  {
     };
 }
 
-//fetch login request:
+//fetch login request: https://api.jsonapi.co/rest/v1/user/login
 export const fetchLogin = (login: string, password: string)  => {
     return async (dispatch: any): Promise<void> => {
         dispatch( fetchLoginRequest(login, password) );
-        // try {
-		// 	const response = await fetch('https://api.jsonapi.co/rest/v1/user/login', {
-		// 		method: 'POST',
-		// 		headers: {
-		// 			'Accept': 'application/json',
-		// 			'Content-Type': 'application/json'
-		// 		},
-		// 		body: JSON.stringify({
-		// 			email: login,
-		// 			password: password,
-		// 		})
-		// 	})
+        try {
+			const response = await fetch('https://reqres.in/api/login ', {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email: login,
+					password: password,
+				})
+			});
 
-		// 	const results = await response.json();
-			//dispatch( fetchLoginSuccess(results) );
-			//const { token } = results.data;
+			const results = await response.json();
+			dispatch( fetchLoginSuccess(results) );
+			dispatch( userAuthorized('succes!') );
+			const { token } = results;
 
-			const token = '123456';
+			// const token = '123456';
 			console.log('token2', token);
 			Cookies.set('accessToken', token);
-			//updateToken(token); // function add the token to the all axios headers
-		};
-        // catch(err) {
-		// 	console.log('err',err)
-        //     return () => dispatch( fetchLoginError() );
-        // }
-    //}
+			// updateToken(token); // function add the token to the all axios headers
+		}
+        catch (err) {
+			console.log('err',err);
+            //return () => dispatch( fetchLoginError() );
+        }
+    };
 
 };
 
@@ -129,7 +130,7 @@ const INITIAL_STATE: AuthorizedState = {
 export const userReducer = (state = INITIAL_STATE, action: UserAuthorizationTypes ) => { //parametry to: aktualny stan i dana akcja
     switch (action.type) {
         case USER_AUTHORIZED:
-            return {...state, isAuthorized: Cookies.get('accessToken') !== undefined, message: action.payload };
+            return {...state, isAuthorized: true, message: action.payload };
         case USER_NON_AUTHORIZED:
 			return {...state, isAuthorized: false, message: action.payload };
 			case USER_LOGIN:

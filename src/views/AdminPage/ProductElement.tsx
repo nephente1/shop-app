@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../../components/Button';
 import { ProductData } from '../ProductDetails/ProductDetails';
-import { UpdatedProductTypes, updateProduct } from './API';
+import { deleteProduct, RequireFields, updateProduct } from './API';
 
 export const Options = styled('div')`
 	width: 200px;
@@ -22,24 +22,26 @@ export const ItemElement = styled('div')`
 
 export const InputsWrapper = styled('div')`
 	display: flex;
-
 `;
-
 interface ProductElementPropsType {
 	productData: ProductData
 }
 
-//@ts-ignore
+
 export const ProductElement = (props: ProductElementPropsType) => {
+	const { id } = props.productData;
 
-	const updatedProduct: UpdatedProductTypes = {};
-
-	const update = () => {
-		updateProduct(props.productData, updatedProduct);
+	const updatedProduct: Partial<ProductData> & Pick<ProductData, 'id'>  = {
+		id: props.productData.id,
 	};
 
-	const deleteProduct = () => {
-		console.log('delete', props.productData.id);
+	const update = () => {
+		updateProduct(updatedProduct);
+	};
+
+	const handleDeleteProduct = () => {
+		deleteProduct(id);
+		console.log('delete', id);
 	};
 
 	const handleChangeTitle = (e:  React.ChangeEvent<HTMLInputElement>): void => {
@@ -58,7 +60,7 @@ export const ProductElement = (props: ProductElementPropsType) => {
 
 			<Options>
 				<Button onClick={update} bgColor="blue" size="small">Update</Button>
-				<Button onClick={deleteProduct} bgColor="blue" size="small">Remove</Button>
+				<Button onClick={handleDeleteProduct} bgColor="blue" size="small">Remove</Button>
 			</Options>
 
 		</ItemElement>

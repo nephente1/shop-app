@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import React from 'react';
-import { ProductList } from './ProductsList';
-import { PageContainer } from '../../views/MainStyles';
-import { SearchComponent } from '../SearchComponent/SearchComponent';
+import { ProductList } from '../../components/ProductsList';
+import { PageContainer } from '../MainStyles';
+import { SearchComponent } from '../../components/SearchComponent/SearchComponent';
+
 
 export const BoxesContainer = styled('div')`
     display: flex;
@@ -18,7 +19,8 @@ export const MainTitle = styled('h2')`
     }
 `;
 
-export const MainPanel = (): JSX.Element => {
+export const MainPage = (): JSX.Element => {
+
     return (
         <>
             <PageContainer>

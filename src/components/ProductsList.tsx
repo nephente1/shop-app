@@ -1,11 +1,11 @@
-import { BoxItem } from '../../components/BoxItem';
+import { BoxItem } from './BoxItem';
 import styled from 'styled-components';
 import React from 'react';
 // import { getAllProducts } from "../appState/api";
-import { instance } from '../../appState/axios';
+import { instance } from '../appState/axios';
 import { AxiosResponse } from 'axios';
-import { Spinner } from '../../components/Spinner.styles';
-import { ProductData } from '../../views/ProductDetails/ProductDetails';
+import { Spinner } from './Spinner.styles';
+import { ProductData } from '../views/ProductDetails/ProductDetails';
 
 
 export const BoxesContainer = styled('div')`

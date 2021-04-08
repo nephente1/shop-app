@@ -13,7 +13,7 @@ import { TopMenu } from '../components/TopMenu';
 import { CategoryPanel } from '../components/CategoryPanel/CategoryPanel';
 import styled from 'styled-components';
 import { AsidePanel } from '../components/AsidePanel/AsidePanel';
-import { MainPanel } from '../components/MainPanel/MainPanel';
+import { MainPage } from '../views/MainPage/MainPage';
 import ProductDetails from '../views/ProductDetails/ProductDetails';
 import { CartPage } from '../views/CartPage/CartPage';
 import Cookies from 'js-cookie';
@@ -29,8 +29,9 @@ export const ContentContainer = styled('div')`
 
 export const MainRouting = () => {
     const getAuthorisedState = useSelector( (state: RootState) => state);
+    // const isAuthorized = React.useMemo( () => getAuthorisedState.userReducer.isAuthorized, [getAuthorisedState.userReducer.isAuthorized] );
     const isAuthorized = getAuthorisedState.userReducer.isAuthorized;
-    console.log('isAuthorized', isAuthorized);
+    console.log('isAuthorized', isAuthorized, Cookies.get('accessToken'));
 
     return (
         <BrowserRouter>
@@ -40,7 +41,7 @@ export const MainRouting = () => {
                 <ContentContainer>
                     <AsidePanel />
 
-                    <Route exact path="/" component={MainPanel}/>
+                    <Route exact path="/" component={MainPage}/>
                     <Route path="/public" component={Public}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/cart" component={CartPage}/>

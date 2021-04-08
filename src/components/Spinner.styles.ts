@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
+// position: fixed;
 export const Spinner = styled('div')`
-    position: fixed;
+
     top: 0;
     left: 0;
     right: 0;
@@ -24,7 +25,7 @@ export const Spinner = styled('div')`
             transform: rotate(0deg);
         }
         to {
-            transform: rotate(360deg);
+            transform: rotate(0deg); 
         }
     }
 `;

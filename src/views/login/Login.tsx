@@ -21,7 +21,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = (dispatch: (Dispatch<UserAuthorizationTypes>)) => {
 	return {
-		userAuthorized: () => dispatch( userAuthorized('zalogowany') ),
+		//userAuthorized: () => dispatch( userAuthorized('zalogowany') ),
 		userNonAuthorized: () => dispatch( userNonAuthorized('wylogowany') ),
 //@ts-ignore
 		fetchLogin: (x: string, y: string) => dispatch(fetchLogin(x ,y))
@@ -35,10 +35,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 const Login = (props: PropsFromRedux) => {
 	const history = useHistory();
-	const {fetchLogin, userAuthorized, userNonAuthorized} = props;
+	const {fetchLogin, userNonAuthorized} = props;
 	const [authorized, setAuthorized] = React.useState<SetStateAction<boolean | null>>(null);
-	const [login, setLogin] = React.useState('');
-	const [pass, setPass] = React.useState('');
+	const [login, setLogin] = React.useState('eve.holt@reqres.in');
+	const [pass, setPass] = React.useState('cityslicka');
 
 	const handleLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setLogin(e.target.value);
@@ -48,25 +48,16 @@ const Login = (props: PropsFromRedux) => {
 		setPass(e.target.value);
 	};
 
-	const loginUser = () => {
-		if (login === 'admin' && pass === 'admin') {
-			fetchLogin(login, pass);
-			userAuthorized(); //to remove after working login api
-			setAuthorized(true); //to remove after working login api
-			history.push('/admin');
-		} else {
-			setAuthorized(false);
-		}
+	const loginUser = async () => {
+	//	if (login === 'admin' && pass === 'admin') {
+			await fetchLogin(login, pass); //wait until fetch is done
+			// userAuthorized(); //to remove after working login api
+			//setAuthorized(true); //to remove after working login api
+			history.push('/admin'); //when fetch is done then route to admin
+	//	} else {
+		//	setAuthorized(false);
+	//	}
 	};
-
-
-	// React.useEffect( () => {
-	// 	if (data.success) {
-	// 		userAuthorized();
-	// 		setAuthorized(true);
-	// 	}
-	// },[data, userAuthorized]);
-
 
 	const loginOutUser = () => {
 		userNonAuthorized();

@@ -19,7 +19,12 @@ export const ItemsPage = () => {
 	}, []);
 
 	React.useEffect( () => {
+		const abortController = new AbortController();
 		getAllProductsFunc();
+
+		return () => {
+			abortController.abort(); //clean from possible leak up memory
+		};
 	}, [getAllProductsFunc]);
 
 

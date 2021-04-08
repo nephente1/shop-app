@@ -32,6 +32,7 @@ interface ButtonPropsType {
 	children: React.ReactNode,
 	onClick: () => void,
 	size?: Sizes,
+	type?: string
 }
 
 export const Button = (props: ButtonPropsType) => {

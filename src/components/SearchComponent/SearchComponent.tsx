@@ -1,5 +1,3 @@
-//import styled from "styled-components";
-
 import { AxiosResponse } from 'axios';
 import React from 'react';
 import styled from 'styled-components';
@@ -7,7 +5,7 @@ import { instance } from '../../appState/axios';
 import { SearchIcon } from '../../assets/SearchIcon';
 import { ProductData } from '../../views/ProductDetails/ProductDetails';
 import { BoxItem } from '../BoxItem';
-import { BoxesContainer } from '../MainPanel/MainPanel';
+import { BoxesContainer } from '../../views/MainPage/MainPage';
 
 
 export const SearchInputWrapper = styled('div')`
@@ -15,7 +13,7 @@ export const SearchInputWrapper = styled('div')`
     width: 263px;
     display: flex;
     height: 38px;
-    padding-left: 49px;
+    padding-left: 30px;
     border: 2px solid #D4D7E1;
     border-radius: 30px;
 `;
@@ -34,7 +32,7 @@ export const SearchInput = styled('input')`
 export const SearchIconWrapper = styled(SearchIcon)`
     position: absolute;
     width: 16px;
-    left: 14px;
+    right: 14px;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -42,15 +40,12 @@ export const SearchIconWrapper = styled(SearchIcon)`
     cursor: pointer;
 `;
 
-// interface SearchComponentPropsType {
-//     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-// }
 
 export const SearchComponent = (): JSX.Element => {
 
+    const inputRef: React.RefObject<HTMLInputElement> | null = React.createRef();
     const [searchWord, setSearchWord] = React.useState<string>('');
     const [results, setResults] = React.useState<AxiosResponse<Array<ProductData>>>();
-    const [renderResults, setRenderResults] = React.useState(false);
 
     const getData = React.useCallback( async () => {
         try {
@@ -66,10 +61,10 @@ export const SearchComponent = (): JSX.Element => {
         getData();
     }, [getData]);
 
-    const onSearchWord = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        setSearchWord(event.currentTarget.value);
-        setRenderResults(false);
-    };
+    // const onSearchWord = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    //     setSearchWord(event.currentTarget.value);
+    //     setRenderResults(false);
+    // };
 
     const getDataToShow = React.useCallback((): Array<ProductData> | null => {
         if (results) {
@@ -89,14 +84,14 @@ export const SearchComponent = (): JSX.Element => {
         } else {
             return <p>No products</p>;
         }
-    },[]);
+    },[searchWord]);
 
     const handleClickSearch = () => {
-        console.log('click');
-        if (searchWord.length > 1) { setRenderResults(true); }
-    };
+        if (inputRef.current !== null) {
+            setSearchWord(inputRef.current.value);
+        }
 
-    console.log('searchData', searchData);
+    };
 
     return (
         <div>
@@ -105,11 +100,12 @@ export const SearchComponent = (): JSX.Element => {
                 <SearchInput
                     type="text"
                     placeholder="Search"
-                    onChange={onSearchWord}
-                    value={searchWord}
+                    // onChange={onSearchWord}
+                    // value={searchWord}
+                    ref={inputRef}
                 />
             </SearchInputWrapper>
-            { renderResults && <BoxesContainer> {searchData}</BoxesContainer> }
+            { searchWord.length ? <BoxesContainer> {searchData}</BoxesContainer> : null }
         </div>
     );
 };

@@ -7,9 +7,11 @@ import { PageContainer } from '../MainStyles';
 import { ItemsPage } from './ItemsPage';
 import styled from 'styled-components';
 import { StatisticsPage } from './StatisticsPage';
+import { CreateItemPage } from './CreateItemPage';
 
 export const Nav = styled('nav')`
 	display: flex;
+	margin: 0 0 25px 0;
 `;
 
 export const LinkItem = styled(Link)`
@@ -36,11 +38,13 @@ export const AdminPage = () => {
 			<PageContainer>
 				<Nav>
 					<LinkItem to="/admin/items">Items</LinkItem>
+					<LinkItem to="/admin/create-item">Create new item</LinkItem>
 					<LinkItem to="/admin/statistics">statistics</LinkItem>
 				</Nav>
 
 				<Switch>
 					<Route exact path="/admin/items" component={ItemsPage}/>
+					<Route path="/admin/create-item" component={CreateItemPage}/>
 					<Route path="/admin/statistics" component={StatisticsPage}/>
 				</Switch>
 
